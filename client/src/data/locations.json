@@ -1,0 +1,134 @@
+[
+  {
+    "id": "delhi-central",
+    "name": "Delhi Central",
+    "city": "Delhi",
+    "address": "Connaught Place, Delhi",
+    "description": "Our flagship location in the heart of Delhi, perfect for students and professionals seeking a premium study environment.",
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+    "occupancy": 23,
+    "hours": "6 AM - 11 PM",
+    "totalSeats": 150,
+    "availableSeats": 115,
+    "pricePerDay": 199,
+    "amenities": ["WiFi", "AC", "Cafe", "Parking", "Security", "Lockers"],
+    "features": ["Noise-controlled zones", "Individual power outlets", "Natural lighting", "24/7 Security"],
+    "coordinates": {
+      "lat": 28.6315,
+      "lng": 77.2167
+    },
+    "noiseLevel": "quiet",
+    "rating": 4.8,
+    "reviewCount": 234
+  },
+  {
+    "id": "mumbai-bandra",
+    "name": "Mumbai Bandra",
+    "city": "Mumbai",
+    "address": "Bandra West, Mumbai",
+    "description": "Modern study space with 24/7 access, ideal for the bustling Mumbai lifestyle.",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+    "occupancy": 67,
+    "hours": "24/7 Access",
+    "totalSeats": 200,
+    "availableSeats": 66,
+    "pricePerDay": 249,
+    "amenities": ["WiFi", "AC", "Cafe", "Security", "Lockers", "Printing"],
+    "features": ["24/7 Access", "Premium seating", "Silent zones", "Meeting rooms"],
+    "coordinates": {
+      "lat": 19.0596,
+      "lng": 72.8295
+    },
+    "noiseLevel": "moderate",
+    "rating": 4.9,
+    "reviewCount": 189
+  },
+  {
+    "id": "bangalore-koramangala",
+    "name": "Bangalore Koramangala",
+    "city": "Bangalore",
+    "address": "Koramangala, Bangalore",
+    "description": "Tech-friendly environment with high-speed internet and collaborative spaces.",
+    "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+    "occupancy": 45,
+    "hours": "5 AM - 12 AM",
+    "totalSeats": 180,
+    "availableSeats": 99,
+    "pricePerDay": 179,
+    "amenities": ["WiFi", "AC", "Cafe", "Library", "Gaming Zone", "Printing"],
+    "features": ["High-speed internet", "Tech support", "Collaborative zones", "Library access"],
+    "coordinates": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "noiseLevel": "quiet",
+    "rating": 4.7,
+    "reviewCount": 156
+  },
+  {
+    "id": "pune-koregaon",
+    "name": "Pune Koregaon Park",
+    "city": "Pune",
+    "address": "Koregaon Park, Pune",
+    "description": "Peaceful study environment with garden views and natural lighting.",
+    "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+    "occupancy": 31,
+    "hours": "6 AM - 10 PM",
+    "totalSeats": 120,
+    "availableSeats": 83,
+    "pricePerDay": 159,
+    "amenities": ["WiFi", "AC", "Cafe", "Garden", "Parking", "Events"],
+    "features": ["Garden views", "Natural lighting", "Wellness corner", "Event spaces"],
+    "coordinates": {
+      "lat": 18.5362,
+      "lng": 73.8958
+    },
+    "noiseLevel": "quiet",
+    "rating": 4.6,
+    "reviewCount": 98
+  },
+  {
+    "id": "hyderabad-hitech",
+    "name": "Hyderabad Hi-Tech City",
+    "city": "Hyderabad",
+    "address": "Hi-Tech City, Hyderabad",
+    "description": "State-of-the-art facility with premium amenities for serious students.",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+    "occupancy": 52,
+    "hours": "24/7 Access",
+    "totalSeats": 220,
+    "availableSeats": 106,
+    "pricePerDay": 199,
+    "amenities": ["WiFi", "AC", "Cafe", "Gym", "Lockers", "Nap Pods"],
+    "features": ["Premium amenities", "Nap pods", "Fitness area", "Meditation room"],
+    "coordinates": {
+      "lat": 17.4484,
+      "lng": 78.3753
+    },
+    "noiseLevel": "quiet",
+    "rating": 4.8,
+    "reviewCount": 167
+  },
+  {
+    "id": "chennai-t-nagar",
+    "name": "Chennai T. Nagar",
+    "city": "Chennai",
+    "address": "T. Nagar, Chennai",
+    "description": "Central location with excellent connectivity and student-friendly pricing.",
+    "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+    "occupancy": 38,
+    "hours": "5:30 AM - 11:30 PM",
+    "totalSeats": 140,
+    "availableSeats": 87,
+    "pricePerDay": 149,
+    "amenities": ["WiFi", "AC", "Cafe", "Transport", "Parking", "Library"],
+    "features": ["Central location", "Transport connectivity", "Study materials", "Group study rooms"],
+    "coordinates": {
+      "lat": 13.0418,
+      "lng": 80.2341
+    },
+    "noiseLevel": "moderate",
+    "rating": 4.5,
+    "reviewCount": 123
+  }
+]

@@ -1,0 +1,326 @@
+:root {
+  --bg: hsl(225, 25%, 6%);
+  --panel: hsl(216, 16%, 12%);
+  --muted: hsl(218, 14%, 18%);
+  --accent-1: hsl(216, 100%, 70%);
+  --accent-2: hsl(332, 100%, 76%);
+  --support-moss: hsl(144, 30%, 60%);
+  --support-amber: hsl(45, 100%, 70%);
+  --support-coral: hsl(9, 100%, 72%);
+  --text: hsl(218, 44%, 94%);
+  --text-secondary: hsl(220, 18%, 68%);
+  --borders: hsl(218, 14%, 22%);
+  
+  /* Font variables */
+  --font-inter: 'Inter', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-manrope);
+}
+
+/* Bootstrap utility overrides */
+.bg-dark-custom {
+  background-color: var(--bg) !important;
+}
+
+.bg-panel {
+  background-color: var(--panel);
+}
+
+.bg-muted {
+  background-color: var(--muted);
+}
+
+.text-secondary-custom {
+  color: var(--text-secondary) !important;
+}
+
+.border-custom {
+  border-color: var(--borders) !important;
+}
+
+/* Custom buttons */
+.btn-primary-custom {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border: none;
+  color: white;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 16px;
+  transition: all 0.15s ease-out;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 160, 255, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
+.btn-outline-custom {
+  border: 2px solid var(--accent-1);
+  color: var(--accent-1);
+  background: transparent;
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 16px;
+  transition: all 0.15s ease-out;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-outline-custom:hover {
+  background: var(--accent-1);
+  color: white;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* Custom cards */
+.card-custom {
+  background-color: var(--panel);
+  border: 1px solid var(--borders);
+  border-radius: 20px;
+  transition: all 0.15s ease-out;
+  overflow: hidden;
+}
+
+.card-custom:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar styles */
+.navbar-dark-custom {
+  background-color: rgba(21, 25, 34, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--borders);
+}
+
+.navbar-dark-custom .navbar-nav .nav-link {
+  color: var(--text);
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 12px;
+  margin: 0 4px;
+  transition: all 0.15s ease-out;
+  text-decoration: none;
+}
+
+.navbar-dark-custom .navbar-nav .nav-link:hover {
+  color: var(--accent-1);
+  background-color: var(--muted);
+}
+
+.navbar-dark-custom .navbar-brand {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.navbar-dark-custom .navbar-brand:hover {
+  color: var(--text);
+}
+
+/* Hero section */
+.hero-gradient {
+  background: linear-gradient(135deg, var(--bg) 0%, var(--panel) 50%, var(--muted) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(108, 160, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(255, 138, 179, 0.1) 0%, transparent 50%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Status indicators */
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status-green { background-color: var(--support-moss); }
+.status-yellow { background-color: var(--support-amber); }
+.status-red { background-color: var(--support-coral); }
+
+.occupancy-badge {
+  background: linear-gradient(135deg, var(--support-moss), #5A9B7A);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.price-highlight {
+  color: var(--accent-1);
+  font-weight: 700;
+}
+
+/* Feature icons */
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Testimonial cards */
+.testimonial-card {
+  background: var(--panel);
+  border: 1px solid var(--borders);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 15px;
+  position: relative;
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 60px;
+  color: var(--accent-1);
+  font-family: serif;
+}
+
+/* Footer */
+.footer-dark {
+  background-color: var(--panel);
+  border-top: 1px solid var(--borders);
+  margin-top: 80px;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--muted);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-right: 12px;
+  transition: all 0.15s ease-out;
+}
+
+.social-icon:hover {
+  background-color: var(--accent-1);
+  color: white;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.partner-logo {
+  height: 40px;
+  opacity: 0.6;
+  filter: grayscale(100%);
+  transition: all 0.15s ease-out;
+}
+
+.partner-logo:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem !important;
+  }
+}
+
+/* Focus states for accessibility */
+.btn:focus,
+.nav-link:focus,
+.social-icon:focus {
+  outline: 2px solid var(--accent-1);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--borders);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-1);
+}

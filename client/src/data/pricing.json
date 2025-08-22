@@ -1,0 +1,103 @@
+{
+  "student": [
+    {
+      "id": "day-pass-student",
+      "name": "Day Pass",
+      "description": "Perfect for occasional study sessions",
+      "price": 149,
+      "originalPrice": 199,
+      "period": "day",
+      "features": [
+        "8 hours access",
+        "High-speed WiFi",
+        "Power outlets",
+        "Basic amenities"
+      ],
+      "type": "day"
+    },
+    {
+      "id": "monthly-student",
+      "name": "Monthly Pass",
+      "description": "Best value for regular students",
+      "price": 2999,
+      "originalPrice": 4999,
+      "period": "month",
+      "features": [
+        "Unlimited access",
+        "Priority booking",
+        "All amenities",
+        "Guest passes (2/month)",
+        "Study material access",
+        "Career counseling"
+      ],
+      "popular": true,
+      "type": "monthly"
+    },
+    {
+      "id": "premium-student",
+      "name": "Premium Pass",
+      "description": "Ultimate study experience for students",
+      "price": 4999,
+      "originalPrice": 6999,
+      "period": "month",
+      "features": [
+        "24/7 access",
+        "Private cabins",
+        "Meeting rooms",
+        "Unlimited guests",
+        "Personal mentor",
+        "Exam prep sessions"
+      ],
+      "type": "premium"
+    }
+  ],
+  "general": [
+    {
+      "id": "day-pass-general",
+      "name": "Day Pass",
+      "description": "Perfect for occasional study sessions",
+      "price": 199,
+      "period": "day",
+      "features": [
+        "8 hours access",
+        "High-speed WiFi",
+        "Power outlets",
+        "Basic amenities"
+      ],
+      "type": "day"
+    },
+    {
+      "id": "monthly-general",
+      "name": "Monthly Pass",
+      "description": "Best value for professionals",
+      "price": 3999,
+      "period": "month",
+      "features": [
+        "Unlimited access",
+        "Priority booking",
+        "All amenities",
+        "Guest passes (2/month)",
+        "Business lounges",
+        "Networking events"
+      ],
+      "popular": true,
+      "type": "monthly"
+    },
+    {
+      "id": "premium-general",
+      "name": "Premium Pass",
+      "description": "Ultimate professional workspace",
+      "price": 6999,
+      "period": "month",
+      "features": [
+        "24/7 access",
+        "Private offices",
+        "Meeting rooms",
+        "Unlimited guests",
+        "Business support",
+        "Executive services"
+      ],
+      "type": "premium"
+    }
+  ]
+}

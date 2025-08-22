@@ -1,0 +1,74 @@
+[
+  {
+    "id": "booking-process",
+    "question": "How do I book a study seat?",
+    "answer": "You can book a study seat through our website or mobile app. Simply select your preferred location, date, and time slot, then confirm your booking with payment. You'll receive a confirmation email with your QR code for check-in.",
+    "category": "Booking"
+  },
+  {
+    "id": "cancellation-policy",
+    "question": "What is your cancellation policy?",
+    "answer": "You can cancel your booking up to 2 hours before your scheduled time for a full refund. Cancellations made within 2 hours are subject to a 50% cancellation fee. No-shows are not eligible for refunds.",
+    "category": "Booking"
+  },
+  {
+    "id": "membership-benefits",
+    "question": "What are the benefits of a monthly membership?",
+    "answer": "Monthly members get unlimited access during operating hours, priority booking, access to premium amenities, guest passes, and discounted rates on events and workshops. Members also get access to exclusive study resources and career guidance sessions.",
+    "category": "Membership"
+  },
+  {
+    "id": "day-pass-duration",
+    "question": "How long can I stay with a day pass?",
+    "answer": "Day passes provide 8 hours of access during our operating hours. You can check in anytime and stay for up to 8 continuous hours. Some locations offer extended hours for premium members.",
+    "category": "Pricing"
+  },
+  {
+    "id": "amenities-included",
+    "question": "What amenities are included?",
+    "answer": "All locations include high-speed WiFi, power outlets, comfortable seating, air conditioning, and basic refreshments. Premium locations also offer printing services, lockers, meeting rooms, and dedicated quiet zones.",
+    "category": "Amenities"
+  },
+  {
+    "id": "student-discounts",
+    "question": "Do you offer student discounts?",
+    "answer": "Yes! We offer up to 25% discount for verified students. Simply upload your student ID during registration to qualify for student pricing. Discounts apply to all our plans and services.",
+    "category": "Pricing"
+  },
+  {
+    "id": "noise-policy",
+    "question": "What is your noise policy?",
+    "answer": "We maintain strict noise policies to ensure a conducive study environment. Phone calls are only allowed in designated areas, and we have silent zones for focused study. Our staff monitors noise levels throughout the day.",
+    "category": "Policies"
+  },
+  {
+    "id": "food-drinks",
+    "question": "Can I bring food and drinks?",
+    "answer": "Outside food and drinks are not allowed in study areas. However, we have an on-site cafe offering healthy snacks, beverages, and light meals. Water is complimentary for all members.",
+    "category": "Policies"
+  },
+  {
+    "id": "group-study",
+    "question": "Are group study areas available?",
+    "answer": "Yes, we have dedicated group study rooms that can be booked separately. These rooms accommodate 4-8 people and come with whiteboards, projectors, and collaborative seating arrangements.",
+    "category": "Amenities"
+  },
+  {
+    "id": "lost-found",
+    "question": "What should I do if I lose something?",
+    "answer": "Contact our front desk immediately. We maintain a lost and found service and will help you locate your items. For valuable items, we recommend using our locker services available at all locations.",
+    "category": "Support"
+  },
+  {
+    "id": "security-measures",
+    "question": "What security measures are in place?",
+    "answer": "All locations have 24/7 security, CCTV monitoring, access control systems, and secure lockers. Only registered members and guests can enter the premises using their QR codes or access cards.",
+    "category": "Security"
+  },
+  {
+    "id": "technical-support",
+    "question": "Is technical support available?",
+    "answer": "Yes, our staff can help with basic technical issues like WiFi connectivity, printing, and device charging. For complex technical problems, we recommend contacting our support team through the app or website.",
+    "category": "Support"
+  }
+]
