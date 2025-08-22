@@ -1,0 +1,162 @@
+Frontend-Optimized Master Prompt (React + Vite + Bootstrap)
+
+Tech Stack (must follow):
+
+Node.js (already installed)
+
+npm (for dependency management)
+
+React + Vite (frontend framework + fast bundler)
+
+Bootstrap 5 (CSS framework; avoid Tailwind)
+
+Framer Motion (animations only)
+
+React Router (for routing, multipage structure)
+
+Project: StudyCove (studycove.in) — tech-enabled, subscription-based study hubs.
+
+Scope:
+👉 Build a frontend-only web app (PWA-ready) with the given stack.
+👉 Use clean React components and Bootstrap utility classes for layout + styling.
+👉 Implement dummy data (JSON/local state) for bookings, occupancy, events, and blog posts — no real backend.
+👉 Provide placeholder functions or TODO notes for future backend integration (e.g., payments, auth).
+
+🖌️ Brand & UI
+
+Tone: friendly, trustworthy, academically serious with cozy anime accents.
+
+Colors (as CSS vars in index.css):
+
+--bg: #0F1115;
+--panel: #151922;
+--muted: #1D2230;
+--accent-1: #6CA0FF;
+--accent-2: #FF8AB3;
+--support-moss: #7AC79B;
+--support-amber: #FFC766;
+--support-coral: #FF7A6E;
+--text: #EAF0FF;
+--text-secondary: #A7B4CE;
+--borders: #2A3142;
+
+
+Fonts: Inter (UI), Manrope (display).
+
+Components: cards with 16–20px rounded corners, soft shadows, Bootstrap grid.
+
+Motion: Framer Motion (fade/scale 120–180ms, ease-out).
+
+Accessibility: WCAG AA, focus states, keyboard nav, ARIA.
+
+📑 Information Architecture (React Router Pages)
+
+Public Pages:
+
+Home
+
+Locations (city selector + hub details)
+
+Pricing
+
+Features
+
+How it Works
+
+Gallery
+
+Events/Workshops
+
+Blog
+
+FAQs
+
+Contact
+
+Careers
+
+Login / Sign Up
+
+Policies (Privacy, Terms, Refunds, Community Guidelines)
+
+Member (once logged in):
+
+Dashboard
+
+My Passes/Membership
+
+Book a Seat
+
+My Bookings
+
+Check-in QR (dummy page, show QR placeholder)
+
+Billing & Invoices (dummy data)
+
+Rewards/Referrals
+
+Support
+
+Admin (frontend shell only):
+
+Overview
+
+Live Floor (dummy occupancy % from state)
+
+Bookings, Members, Payments
+
+Events & Content (CMS-like page with forms)
+
+Reports/Analytics (charts with fake data)
+
+Staff Roles, Settings
+
+📌 Key Conversion Pages
+
+Home Page:
+
+Hero: “Your guaranteed quiet seat—any day.” + CTA buttons
+
+Proof section: testimonials, partner logos
+
+How It Works (3 steps)
+
+Why StudyCove (features list with icons)
+
+Locations teaser grid
+
+Pricing teaser cards
+
+Footer
+
+Locations Page:
+
+City selector + hub cards (distance, hours, live occupancy % from dummy JSON, amenities).
+
+Hub detail page: photos, noise status (green/yellow/red toggle from dummy state), seat types, events, reviews.
+
+Pricing Page:
+
+Bootstrap cards with tiers: Day Pass, Monthly, Premium.
+
+Toggle Student vs General pricing.
+
+FAQ accordion.
+
+⚙️ Implementation Rules for AI
+
+Use Vite + React project structure.
+
+Bootstrap 5 via npm (import 'bootstrap/dist/css/bootstrap.min.css').
+
+Create reusable components: Navbar, Footer, Hero, PricingCard, LocationCard, TestimonialCarousel, etc.
+
+Use React Router for page navigation.
+
+Store dummy data in src/data/*.json or TS objects.
+
+Keep backend-like logic as stubs (e.g., function handleBooking() { /* TODO: connect API */ }).
+
+For PWA readiness: include manifest + service worker placeholder.
+
+Code should be modular, easy to expand, and deployable to Netlify/GitHub Pages without modification.
