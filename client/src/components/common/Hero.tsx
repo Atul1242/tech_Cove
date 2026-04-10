@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BRAND } from '../../utils/constants';
+import heroImg from "../../lib/hero-study-space.jpg";
 
 interface HeroProps {
   title?: string;
@@ -17,7 +18,7 @@ const Hero: React.FC<HeroProps> = ({
   subtitle = BRAND.description,
   showCTAs = true,
   showStats = true,
-  backgroundImage = "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600",
+  backgroundImage = heroImg,
   children
 }) => {
   return (
@@ -92,13 +93,13 @@ const Hero: React.FC<HeroProps> = ({
                   <div className="d-flex align-items-center">
                     <div className="status-indicator status-green"></div>
                     <span className="small text-secondary-custom" data-testid="seats-available">
-                      127 seats available today
+                      XXX seats available today
                     </span>
                   </div>
                   <div className="d-flex align-items-center">
                     <i className="fas fa-star" style={{ color: 'var(--support-amber)' }}></i>
                     <span className="ms-1 small text-secondary-custom" data-testid="rating">
-                      4.9/5 from 2,847 students
+                      X.X/5 from X,XXX students
                     </span>
                   </div>
                 </motion.div>

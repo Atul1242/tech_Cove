@@ -33,6 +33,12 @@ const Features: React.FC = () => {
   const allFeatures = [...FEATURES, ...additionalFeatures];
 
   return (
+    <>
+      <style>{`
+        .feature-icon-dark {
+          color: #1a1d29 !important;
+        }
+      `}</style>
     <div className="bg-dark-custom" style={{ marginTop: '76px', minHeight: '100vh' }}>
       {/* Hero Section */}
       <section className="hero-gradient py-5">
@@ -63,24 +69,51 @@ const Features: React.FC = () => {
       {/* Features Grid */}
       <section className="py-5">
         <div className="container">
-          <div className="row g-5">
+          <div className="row g-4">
             {allFeatures.map((feature, index) => (
               <div key={index} className="col-lg-4 col-md-6">
                 <motion.div 
-                  className="text-center h-100"
+                  className="card-custom p-4 text-center h-100"
+                  style={{
+                    background: 'linear-gradient(135deg, #f0f4f8, #e8eef5)',
+                    border: '1px solid rgba(229, 213, 204, 0.5)',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.08)',
+                    transition: 'all 0.3s ease'
+                  }}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -10 }}
+                  whileHover={{ 
+                    y: -10,
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.12)'
+                  }}
                 >
                   <div 
-                    className="feature-icon mx-auto mb-4"
-                    style={{ background: `linear-gradient(135deg, ${feature.color}, ${feature.color}dd)` }}
+                    className="mx-auto mb-4"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${feature.color}, ${feature.color}dd)`,
+                      width: '80px',
+                      height: '80px',
+                      borderRadius: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: `0 8px 20px ${feature.color}40`
+                    }}
                   >
-                    <i className={feature.icon}></i>
+                    <i 
+                      className={`${feature.icon} feature-icon-dark`}
+                      style={{
+                        fontSize: '2.5rem'
+                      }}
+                    ></i>
                   </div>
-                  <h4 className="font-display fw-semibold mb-3">{feature.title}</h4>
-                  <p className="text-secondary-custom">{feature.description}</p>
+                  <h4 className="font-display fw-semibold mb-3" style={{ color: '#1a1d29' }}>
+                    {feature.title}
+                  </h4>
+                  <p className="mb-0" style={{ color: '#4A4A4A' }}>
+                    {feature.description}
+                  </p>
                 </motion.div>
               </div>
             ))}
@@ -263,6 +296,7 @@ const Features: React.FC = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

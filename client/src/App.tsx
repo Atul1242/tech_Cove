@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { AuthProvider } from './hooks/useAuth';
+import { BookingProvider } from './context/BookingContext';
 import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
 
@@ -31,6 +32,7 @@ import CheckIn from './pages/Member/CheckIn';
 import Billing from './pages/Member/Billing';
 import Rewards from './pages/Member/Rewards';
 import Support from './pages/Member/Support';
+import BookLocator from './pages/Member/BookLocator';
 
 // Admin pages
 import Overview from './pages/Admin/Overview';
@@ -77,6 +79,7 @@ const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 function App() {
   return (
     <AuthProvider>
+      <BookingProvider>
       <Router>
         <div className="bg-dark-custom min-vh-100">
           <Navbar />
@@ -196,6 +199,11 @@ function App() {
                 <Support />
               </AnimatedRoute>
             } />
+            <Route path="/book-locator" element={
+              <AnimatedRoute>
+                <BookLocator />
+              </AnimatedRoute>
+            } />
 
             {/* Admin Routes */}
             <Route path="/admin" element={
@@ -271,6 +279,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      </BookingProvider>
     </AuthProvider>
   );
 }

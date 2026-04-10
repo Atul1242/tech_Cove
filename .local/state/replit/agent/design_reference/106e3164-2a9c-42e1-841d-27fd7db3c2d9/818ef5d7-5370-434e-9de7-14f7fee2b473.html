@@ -1,0 +1,1082 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyCove - Your Guaranteed Quiet Seat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0F1115;
+            --panel: #151922;
+            --muted: #1D2230;
+            --accent-1: #6CA0FF;
+            --accent-2: #FF8AB3;
+            --support-moss: #7AC79B;
+            --support-amber: #FFC766;
+            --support-coral: #FF7A6E;
+            --text: #EAF0FF;
+            --text-secondary: #A7B4CE;
+            --borders: #2A3142;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .font-display {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .bg-dark-custom {
+            background-color: var(--bg) !important;
+        }
+
+        .bg-panel {
+            background-color: var(--panel);
+        }
+
+        .bg-muted {
+            background-color: var(--muted);
+        }
+
+        .text-secondary-custom {
+            color: var(--text-secondary) !important;
+        }
+
+        .border-custom {
+            border-color: var(--borders) !important;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border: none;
+            color: white;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 16px;
+            transition: all 0.15s ease-out;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 160, 255, 0.3);
+            color: white;
+        }
+
+        .btn-outline-custom {
+            border: 2px solid var(--accent-1);
+            color: var(--accent-1);
+            background: transparent;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 16px;
+            transition: all 0.15s ease-out;
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--accent-1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card-custom {
+            background-color: var(--panel);
+            border: 1px solid var(--borders);
+            border-radius: 20px;
+            transition: all 0.15s ease-out;
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-dark-custom {
+            background-color: rgba(21, 25, 34, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--borders);
+        }
+
+        .navbar-dark-custom .navbar-nav .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 12px;
+            margin: 0 4px;
+            transition: all 0.15s ease-out;
+        }
+
+        .navbar-dark-custom .navbar-nav .nav-link:hover {
+            color: var(--accent-1);
+            background-color: var(--muted);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--bg) 0%, var(--panel) 50%, var(--muted) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(108, 160, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(255, 138, 179, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-green { background-color: var(--support-moss); }
+        .status-yellow { background-color: var(--support-amber); }
+        .status-red { background-color: var(--support-coral); }
+
+        .occupancy-badge {
+            background: linear-gradient(135deg, var(--support-moss), #5A9B7A);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .price-highlight {
+            color: var(--accent-1);
+            font-weight: 700;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card {
+            background: var(--panel);
+            border: 1px solid var(--borders);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 15px;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 60px;
+            color: var(--accent-1);
+            font-family: serif;
+        }
+
+        .footer-dark {
+            background-color: var(--panel);
+            border-top: 1px solid var(--borders);
+            margin-top: 80px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--muted);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-right: 12px;
+            transition: all 0.15s ease-out;
+        }
+
+        .social-icon:hover {
+            background-color: var(--accent-1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .partner-logo {
+            height: 40px;
+            opacity: 0.6;
+            filter: grayscale(100%);
+            transition: all 0.15s ease-out;
+        }
+
+        .partner-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem !important;
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark-custom">
+    <!-- @COMPONENT: Navbar [Fixed navigation with logo and auth buttons] -->
+    <nav class="navbar navbar-expand-lg navbar-dark-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand font-display fw-bold fs-3" href="#" data-bind="brand.name">
+                <i class="fas fa-book-open me-2" style="color: var(--accent-1);"></i>
+                StudyCove
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" data-mock="true">Locations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-mock="true">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-mock="true">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-mock="true">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-mock="true">Blog</a></li>
+                </ul>
+                
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-custom" data-event="click:handleLogin" data-mock="true">Login</button>
+                    <button class="btn btn-primary-custom" data-event="click:handleSignup" data-mock="true">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navbar -->
+
+    <!-- @COMPONENT: Hero [Main landing section with CTA] -->
+    <section class="hero-gradient py-5" style="margin-top: 76px; min-height: 90vh; display: flex; align-items: center;">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="animate-slide-up">
+                        <h1 class="font-display fw-bold mb-4" style="font-size: 3.5rem; line-height: 1.1;" data-bind="hero.title">
+                            Your guaranteed <span style="color: var(--accent-1);">quiet seat</span>—any day.
+                        </h1>
+                        <p class="fs-5 text-secondary-custom mb-4" data-bind="hero.subtitle" data-mock="true">
+                            Premium study spaces with guaranteed seating, perfect acoustics, and all the amenities you need to focus and succeed.
+                        </p>
+                        
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <button class="btn btn-primary-custom btn-lg" data-event="click:handleBookNow" data-mock="true">
+                                <i class="fas fa-calendar-check me-2"></i>Book Your Seat
+                            </button>
+                            <button class="btn btn-outline-custom btn-lg" data-event="click:handleViewLocations" data-mock="true">
+                                <i class="fas fa-map-marker-alt me-2"></i>View Locations
+                            </button>
+                        </div>
+                        
+                        <div class="d-flex align-items-center gap-4 flex-wrap">
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator status-green"></div>
+                                <span class="small text-secondary-custom" data-mock="true">127 seats available today</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-star" style="color: var(--support-amber);"></i>
+                                <span class="ms-1 small text-secondary-custom" data-mock="true">4.9/5 from 2,847 students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="animate-fade-in">
+                        <!-- Modern study space with students working at desks -->
+                        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
+                             alt="Modern study space with students" 
+                             class="img-fluid rounded-4 shadow-lg" 
+                             style="border-radius: 24px !important;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero -->
+
+    <!-- @COMPONENT: TrustIndicators [Social proof and partner logos] -->
+    <section class="py-5 bg-panel">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h6 class="text-secondary-custom text-uppercase fw-semibold mb-4" data-mock="true">Trusted by students from</h6>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-6 col-md-2 text-center mb-3">
+                        <!-- IIT Delhi logo placeholder -->
+                        <img src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80" 
+                             alt="IIT Delhi" class="partner-logo" data-mock-image="true" />
+                    </div>
+                    <div class="col-6 col-md-2 text-center mb-3">
+                        <!-- DU logo placeholder -->
+                        <img src="https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80" 
+                             alt="Delhi University" class="partner-logo" data-mock-image="true" />
+                    </div>
+                    <div class="col-6 col-md-2 text-center mb-3">
+                        <!-- JNU logo placeholder -->
+                        <img src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80" 
+                             alt="JNU" class="partner-logo" data-mock-image="true" />
+                    </div>
+                    <div class="col-6 col-md-2 text-center mb-3">
+                        <!-- AIIMS logo placeholder -->
+                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80" 
+                             alt="AIIMS" class="partner-logo" data-mock-image="true" />
+                    </div>
+                    <div class="col-6 col-md-2 text-center mb-3">
+                        <!-- UPSC aspirants placeholder -->
+                        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80" 
+                             alt="UPSC" class="partner-logo" data-mock-image="true" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: TrustIndicators -->
+
+    <!-- @COMPONENT: HowItWorks [3-step process explanation] -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="font-display fw-bold mb-3" data-bind="howItWorks.title" data-mock="true">How StudyCove Works</h2>
+                <p class="fs-5 text-secondary-custom" data-mock="true">Get your perfect study space in just three simple steps</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- @MAP: steps.map(step => ( -->
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-search" data-mock="true"></i>
+                        </div>
+                        <h4 class="font-display fw-semibold mb-3" data-mock="true">Find Your Space</h4>
+                        <p class="text-secondary-custom" data-mock="true">Browse available study spots near you with real-time occupancy updates and amenity details.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-calendar-check" data-mock="true"></i>
+                        </div>
+                        <h4 class="font-display fw-semibold mb-3" data-mock="true">Book Instantly</h4>
+                        <p class="text-secondary-custom" data-mock="true">Reserve your seat for hours, days, or get a monthly pass. Cancel anytime with flexible policies.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-qrcode" data-mock="true"></i>
+                        </div>
+                        <h4 class="font-display fw-semibold mb-3" data-mock="true">Check-in & Study</h4>
+                        <p class="text-secondary-custom" data-mock="true">Scan your QR code, settle into your guaranteed seat, and focus on what matters most.</p>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HowItWorks -->
+
+    <!-- @COMPONENT: FeaturesSection [Key benefits and amenities] -->
+    <section class="py-5 bg-panel">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="font-display fw-bold mb-4" data-mock="true">Why Choose StudyCove?</h2>
+                    
+                    <div class="row g-4">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-volume-mute" style="color: var(--support-moss); font-size: 1.5rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2" data-mock="true">Noise-Controlled</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">Acoustic panels and strict noise policies ensure perfect focus</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-wifi" style="color: var(--accent-1); font-size: 1.5rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2" data-mock="true">High-Speed WiFi</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">Blazing fast internet for research and online learning</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-coffee" style="color: var(--support-amber); font-size: 1.5rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2" data-mock="true">Cafe & Snacks</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">Fresh coffee and healthy snacks to fuel your studies</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-charging-station" style="color: var(--accent-2); font-size: 1.5rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2" data-mock="true">Power Outlets</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">Individual charging stations at every seat</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <!-- Cozy study environment with amenities -->
+                    <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
+                         alt="Cozy study environment with modern amenities" 
+                         class="img-fluid rounded-4 shadow-lg" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FeaturesSection -->
+
+    <!-- @COMPONENT: LocationsTeaser [Preview of available locations] -->
+    <section class="py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h2 class="font-display fw-bold mb-2" data-mock="true">Study Locations</h2>
+                    <p class="text-secondary-custom" data-mock="true">Premium spaces across major cities</p>
+                </div>
+                <button class="btn btn-outline-custom" data-event="click:handleViewAllLocations" data-mock="true">
+                    View All Locations <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+            
+            <div class="row g-4">
+                <!-- @MAP: locations.map(location => ( -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-custom h-100">
+                        <!-- Modern study space in Delhi -->
+                        <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" 
+                             alt="StudyCove Delhi Central location" 
+                             class="card-img-top" style="height: 200px; object-fit: cover;" />
+                        
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-semibold mb-1" data-bind="location.name" data-mock="true">Delhi Central</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Connaught Place, Delhi
+                                    </p>
+                                </div>
+                                <span class="occupancy-badge" data-bind="location.occupancy" data-mock="true">23% full</span>
+                            </div>
+                            
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <span class="small text-secondary-custom">
+                                    <i class="fas fa-clock me-1"></i>6 AM - 11 PM
+                                </span>
+                                <span class="small text-secondary-custom">
+                                    <i class="fas fa-users me-1"></i>150 seats
+                                </span>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-secondary small" data-mock="true">WiFi</span>
+                                <span class="badge bg-secondary small" data-mock="true">AC</span>
+                                <span class="badge bg-secondary small" data-mock="true">Cafe</span>
+                                <span class="badge bg-secondary small" data-mock="true">Parking</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-highlight" data-mock="true">₹199/day</span>
+                                <button class="btn btn-primary-custom btn-sm" data-event="click:handleViewLocation" data-mock="true">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-custom h-100">
+                        <!-- Modern study space in Mumbai -->
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" 
+                             alt="StudyCove Mumbai Bandra location" 
+                             class="card-img-top" style="height: 200px; object-fit: cover;" />
+                        
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-semibold mb-1" data-mock="true">Mumbai Bandra</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Bandra West, Mumbai
+                                    </p>
+                                </div>
+                                <span class="occupancy-badge" style="background: linear-gradient(135deg, var(--support-amber), #CC9A52);" data-mock="true">67% full</span>
+                            </div>
+                            
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <span class="small text-secondary-custom">
+                                    <i class="fas fa-clock me-1"></i>24/7 Access
+                                </span>
+                                <span class="small text-secondary-custom">
+                                    <i class="fas fa-users me-1"></i>200 seats
+                                </span>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-secondary small" data-mock="true">WiFi</span>
+                                <span class="badge bg-secondary small" data-mock="true">AC</span>
+                                <span class="badge bg-secondary small" data-mock="true">Cafe</span>
+                                <span class="badge bg-secondary small" data-mock="true">Security</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-highlight" data-mock="true">₹249/day</span>
+                                <button class="btn btn-primary-custom btn-sm" data-event="click:handleViewLocation" data-mock="true">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-custom h-100">
+                        <!-- Modern study space in Bangalore -->
+                        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" 
+                             alt="StudyCove Bangalore Koramangala location" 
+                             class="card-img-top" style="height: 200px; object-fit: cover;" />
+                        
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-semibold mb-1" data-mock="true">Bangalore Koramangala</h5>
+                                    <p class="text-secondary-custom small mb-0" data-mock="true">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Koramangala, Bangalore
+                                    </p>
+                                </div>
+                                <span class="occupancy-badge" data-mock="true">45% full</span>
+                            </div>
+                            
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <span class="small text-secondary-custom">
+                                    <i class="fas fa-clock me-1"></i>5 AM - 12 AM
+                                </span>
+                                <span class="small text-secondary-custom">
+                                    <i class="fas fa-users me-1"></i>180 seats
+                                </span>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-secondary small" data-mock="true">WiFi</span>
+                                <span class="badge bg-secondary small" data-mock="true">AC</span>
+                                <span class="badge bg-secondary small" data-mock="true">Cafe</span>
+                                <span class="badge bg-secondary small" data-mock="true">Library</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-highlight" data-mock="true">₹179/day</span>
+                                <button class="btn btn-primary-custom btn-sm" data-event="click:handleViewLocation" data-mock="true">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: LocationsTeaser -->
+
+    <!-- @COMPONENT: PricingTeaser [Pricing plans preview] -->
+    <section class="py-5 bg-panel">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="font-display fw-bold mb-3" data-mock="true">Simple, Transparent Pricing</h2>
+                <p class="fs-5 text-secondary-custom" data-mock="true">Choose the plan that fits your study schedule</p>
+                
+                <div class="d-inline-flex bg-muted rounded-4 p-1 mt-3">
+                    <button class="btn btn-sm px-4 py-2 active" style="background: var(--accent-1); color: white; border: none; border-radius: 12px;" data-event="click:toggleStudentPricing" data-mock="true">
+                        Student Pricing
+                    </button>
+                    <button class="btn btn-sm px-4 py-2 text-secondary-custom" style="border: none; background: transparent;" data-event="click:toggleGeneralPricing" data-mock="true">
+                        General Pricing
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <!-- @MAP: pricingPlans.map(plan => ( -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-custom h-100 text-center p-4">
+                        <div class="mb-4">
+                            <h4 class="font-display fw-bold" data-mock="true">Day Pass</h4>
+                            <p class="text-secondary-custom" data-mock="true">Perfect for occasional study sessions</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <span class="price-highlight" style="font-size: 3rem; font-weight: 700;" data-bind="plan.price" data-mock="true">₹199</span>
+                            <span class="text-secondary-custom">/day</span>
+                        </div>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>8 hours access</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>High-speed WiFi</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Power outlets</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Basic amenities</li>
+                        </ul>
+                        
+                        <button class="btn btn-outline-custom w-100" data-event="click:handleSelectPlan" data-mock="true">
+                            Choose Day Pass
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-custom h-100 text-center p-4 position-relative" style="border: 2px solid var(--accent-1);">
+                        <div class="position-absolute top-0 start-50 translate-middle">
+                            <span class="badge px-3 py-2" style="background: var(--accent-1); color: white;" data-mock="true">Most Popular</span>
+                        </div>
+                        
+                        <div class="mb-4 mt-3">
+                            <h4 class="font-display fw-bold" data-mock="true">Monthly Pass</h4>
+                            <p class="text-secondary-custom" data-mock="true">Best value for regular students</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <span class="price-highlight" style="font-size: 3rem; font-weight: 700;" data-mock="true">₹3,999</span>
+                            <span class="text-secondary-custom">/month</span>
+                            <div class="small text-secondary-custom" data-mock="true">₹133/day equivalent</div>
+                        </div>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Unlimited access</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Priority booking</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>All amenities</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Guest passes (2/month)</li>
+                        </ul>
+                        
+                        <button class="btn btn-primary-custom w-100" data-event="click:handleSelectPlan" data-mock="true">
+                            Choose Monthly
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-custom h-100 text-center p-4">
+                        <div class="mb-4">
+                            <h4 class="font-display fw-bold" data-mock="true">Premium Pass</h4>
+                            <p class="text-secondary-custom" data-mock="true">Ultimate study experience</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <span class="price-highlight" style="font-size: 3rem; font-weight: 700;" data-mock="true">₹6,999</span>
+                            <span class="text-secondary-custom">/month</span>
+                            <div class="small text-secondary-custom" data-mock="true">₹233/day equivalent</div>
+                        </div>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>24/7 access</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Private cabins</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Meeting rooms</li>
+                            <li class="mb-2" data-mock="true"><i class="fas fa-check me-2" style="color: var(--support-moss);"></i>Unlimited guests</li>
+                        </ul>
+                        
+                        <button class="btn btn-outline-custom w-100" data-event="click:handleSelectPlan" data-mock="true">
+                            Choose Premium
+                        </button>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: PricingTeaser -->
+
+    <!-- @COMPONENT: TestimonialsSection [Customer reviews and feedback] -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="font-display fw-bold mb-3" data-mock="true">What Students Say</h2>
+                <p class="fs-5 text-secondary-custom" data-mock="true">Join thousands of successful students</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- @MAP: testimonials.map(testimonial => ( -->
+                <div class="col-lg-4">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <!-- Student profile photo -->
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100" 
+                                     alt="Student testimonial" 
+                                     class="rounded-circle" 
+                                     style="width: 50px; height: 50px; object-fit: cover;" />
+                            </div>
+                            <div>
+                                <h6 class="fw-semibold mb-0" data-bind="testimonial.name" data-mock="true">Arjun Sharma</h6>
+                                <small class="text-secondary-custom" data-mock="true">IIT Delhi, Engineering</small>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-3" data-bind="testimonial.content" data-mock="true">
+                            StudyCove has been a game-changer for my preparation. The guaranteed seating and quiet environment helped me focus like never before. Cleared JEE Advanced!
+                        </p>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="text-warning me-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <small class="text-secondary-custom" data-mock="true">5.0</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <!-- Student profile photo -->
+                                <img src="https://pixabay.com/get/g1e25a7dcc74feb0776da7053451975f503db81e864b40857c6b10c90cb844ce9bca6499b23da37cd40d58b49a54d8788d52ecd6e61dde8942e43ea6d33f90f2a_1280.jpg" 
+                                     alt="Student testimonial" 
+                                     class="rounded-circle" 
+                                     style="width: 50px; height: 50px; object-fit: cover;" />
+                            </div>
+                            <div>
+                                <h6 class="fw-semibold mb-0" data-mock="true">Priya Patel</h6>
+                                <small class="text-secondary-custom" data-mock="true">UPSC Aspirant</small>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-3" data-mock="true">
+                            The 24/7 access and premium amenities make it worth every rupee. I've found my perfect study sanctuary here. The community is incredibly supportive too!
+                        </p>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="text-warning me-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <small class="text-secondary-custom" data-mock="true">5.0</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <!-- Student profile photo -->
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100" 
+                                     alt="Student testimonial" 
+                                     class="rounded-circle" 
+                                     style="width: 50px; height: 50px; object-fit: cover;" />
+                            </div>
+                            <div>
+                                <h6 class="fw-semibold mb-0" data-mock="true">Rohit Kumar</h6>
+                                <small class="text-secondary-custom" data-mock="true">CA Finalist</small>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-3" data-mock="true">
+                            Studying at home was full of distractions. StudyCove gave me the professional environment I needed. Passed my CA Final in first attempt!
+                        </p>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="text-warning me-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <small class="text-secondary-custom" data-mock="true">5.0</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: TestimonialsSection -->
+
+    <!-- @COMPONENT: CTASection [Final call-to-action] -->
+    <section class="py-5 bg-panel">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="font-display fw-bold mb-4" data-mock="true">Ready to Transform Your Study Experience?</h2>
+                    <p class="fs-5 text-secondary-custom mb-4" data-mock="true">
+                        Join thousands of successful students who've found their perfect study space. 
+                        Book your first session today and experience the difference.
+                    </p>
+                    
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+                        <button class="btn btn-primary-custom btn-lg" data-event="click:handleStartFreeTrial" data-mock="true">
+                            <i class="fas fa-rocket me-2"></i>Start Free Trial
+                        </button>
+                        <button class="btn btn-outline-custom btn-lg" data-event="click:handleScheduleTour" data-mock="true">
+                            <i class="fas fa-calendar me-2"></i>Schedule a Tour
+                        </button>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap text-secondary-custom">
+                        <span class="small" data-mock="true"><i class="fas fa-check me-1"></i>No setup fees</span>
+                        <span class="small" data-mock="true"><i class="fas fa-check me-1"></i>Cancel anytime</span>
+                        <span class="small" data-mock="true"><i class="fas fa-check me-1"></i>7-day money back</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CTASection -->
+
+    <!-- @COMPONENT: Footer [Site footer with links and social media] -->
+    <footer class="footer-dark py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="mb-4">
+                        <a href="#" class="navbar-brand font-display fw-bold fs-3 text-decoration-none">
+                            <i class="fas fa-book-open me-2" style="color: var(--accent-1);"></i>
+                            <span style="color: var(--text);">StudyCove</span>
+                        </a>
+                        <p class="text-secondary-custom mt-3" data-mock="true">
+                            Premium study spaces designed for students who demand excellence. Your success is our mission.
+                        </p>
+                    </div>
+                    
+                    <div class="d-flex">
+                        <a href="#" class="social-icon" data-mock="true"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" data-mock="true"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon" data-mock="true"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon" data-mock="true"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-3">
+                    <h6 class="fw-semibold mb-3" data-mock="true">Company</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Careers</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Press</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-3">
+                    <h6 class="fw-semibold mb-3" data-mock="true">Product</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Locations</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Pricing</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Features</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Mobile App</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-3">
+                    <h6 class="fw-semibold mb-3" data-mock="true">Support</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Help Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">FAQs</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Community</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Status</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-3">
+                    <h6 class="fw-semibold mb-3" data-mock="true">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Terms of Service</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Refund Policy</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary-custom text-decoration-none" data-mock="true">Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4 border-custom">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-secondary-custom small mb-0" data-mock="true">
+                        © 2024 StudyCove. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex justify-content-md-end align-items-center gap-3">
+                        <span class="text-secondary-custom small" data-mock="true">Made with ❤️ in India</span>
+                        <div class="d-flex gap-2">
+                            <span class="badge bg-secondary small" data-mock="true">Hindi</span>
+                            <span class="badge bg-secondary small" data-mock="true">English</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // TODO: Implement React Router navigation
+        // TODO: Connect to backend APIs for real data
+        // TODO: Implement authentication system
+        // TODO: Add payment gateway integration
+        // TODO: Implement booking and reservation system
+        
+        (function() {
+            // Basic interactivity for the mockup
+            const navbar = document.querySelector('.navbar');
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'rgba(21, 25, 34, 0.98)';
+                } else {
+                    navbar.style.backgroundColor = 'rgba(21, 25, 34, 0.95)';
+                }
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all cards and major sections
+            document.querySelectorAll('.card-custom, .testimonial-card, .feature-icon').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+            
+            // Pricing toggle functionality
+            const studentBtn = document.querySelector('[data-event="click:toggleStudentPricing"]');
+            const generalBtn = document.querySelector('[data-event="click:toggleGeneralPricing"]');
+            
+            if (studentBtn && generalBtn) {
+                studentBtn.addEventListener('click', function() {
+                    // TODO: Switch to student pricing
+                    this.style.background = 'var(--accent-1)';
+                    this.style.color = 'white';
+                    generalBtn.style.background = 'transparent';
+                    generalBtn.style.color = 'var(--text-secondary)';
+                });
+                
+                generalBtn.addEventListener('click', function() {
+                    // TODO: Switch to general pricing
+                    this.style.background = 'var(--accent-1)';
+                    this.style.color = 'white';
+                    studentBtn.style.background = 'transparent';
+                    studentBtn.style.color = 'var(--text-secondary)';
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

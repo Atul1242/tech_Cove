@@ -7,6 +7,7 @@ import TestimonialCard from '../components/common/TestimonialCard';
 import { useQuery } from '@tanstack/react-query';
 import { Location, PricingPlan, Testimonial } from '../types';
 import { HOW_IT_WORKS, FEATURES } from '../utils/constants';
+import whySC from "../lib/why-choose-studycove.jpg";
 
 // Import data
 import locationsData from '../data/locations.json';
@@ -29,13 +30,13 @@ const Home: React.FC = () => {
       <Hero />
 
       {/* Trust Indicators */}
-      <section className="py-5 bg-panel">
+      {/* <section className="py-5 bg-panel">
         <div className="container">
-          <div className="text-center mb-5">
-            <h6 className="text-secondary-custom text-uppercase fw-semibold mb-4">
+          <div className="text-center mb-5"> */}
+            {/* <h6 className="text-secondary-custom text-uppercase fw-semibold mb-4">
               Trusted by students from
-            </h6>
-            <div className="row justify-content-center align-items-center">
+            </h6> */}
+            {/* <div className="row justify-content-center align-items-center">
               {[
                 "https://images.unsplash.com/photo-1564981797816-1043664bf78d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80",
                 "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=80",
@@ -47,12 +48,12 @@ const Home: React.FC = () => {
                   <img src={logo} alt={`Partner ${index + 1}`} className="partner-logo" />
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
+            </div> */}
+          {/* </div> */}
+      {/* //   </div>
+      // </section> */}
 
-      {/* How It Works */}
+
       <section className="py-5">
         <div className="container">
           <div className="text-center mb-5">
@@ -133,7 +134,7 @@ const Home: React.FC = () => {
 
             <div className="col-lg-6">
               <motion.img 
-                src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                src={whySC}
                 alt="Cozy study environment with modern amenities" 
                 className="img-fluid rounded-4 shadow-lg"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -146,7 +147,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Locations Teaser */}
-      <section className="py-5">
+      {/* <section className="py-5">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
@@ -179,7 +180,7 @@ const Home: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Pricing Teaser */}
       <section className="py-5 bg-panel">

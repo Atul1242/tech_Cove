@@ -24,7 +24,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ plan, isPopular, onSelectPlan
             style={{ background: 'var(--accent-1)', color: 'white' }}
             data-testid="popular-badge"
           >
-            Most Popular
+            Most Popular  
           </span>
         </div>
       )}
@@ -44,17 +44,17 @@ const PricingCard: React.FC<PricingCardProps> = ({ plan, isPopular, onSelectPlan
           style={{ fontSize: '3rem', fontWeight: '700' }}
           data-testid={`plan-price-${plan.id}`}
         >
-          ₹{plan.price.toLocaleString()}
+          {/* ₹{plan.price.toLocaleString()} */}₹XXX
         </span>
         <span className="text-secondary-custom">/{plan.period}</span>
         {plan.originalPrice && (
           <div className="small text-secondary-custom">
-            <del>₹{plan.originalPrice.toLocaleString()}</del> Save ₹{(plan.originalPrice - plan.price).toLocaleString()}
+            {/* <del>₹{plan.originalPrice.toLocaleString()}</del> Save ₹{(plan.originalPrice - plan.price).toLocaleString()} */}₹XXX
           </div>
         )}
         {plan.period === 'month' && (
           <div className="small text-secondary-custom">
-            ₹{Math.round(plan.price / 30)}/day equivalent
+            {/* ₹{Math.round(plan.price / 30)}/day equivalent */}₹XXX
           </div>
         )}
       </div>

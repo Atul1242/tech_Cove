@@ -1,287 +1,749 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import LocationCard from '../../components/common/LocationCard';
-import { Location } from '../../types';
-import locationsData from '../../data/locations.json';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import {
+  mockSeats,
+  amenityOptions,
+  seatTypes,
+  timeSlots,
+  durationOptions,
+  getSeatsByFloor,
+  getFloorPlan,
+  getSeatStatusColor,
+  getOccupancyStats,
+  calculatePrice,
+  formatDuration,
+  type Seat,
+} from '../../data/mockSeatBooking';
+import { useBookings } from '../../context/BookingContext';
 
 const BookSeat: React.FC = () => {
-  const [selectedLocation, setSelectedLocation] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [selectedTime, setSelectedTime] = useState('09:00');
-  const [duration, setDuration] = useState('8');
-  const [step, setStep] = useState(1);
-  
-  const locations = locationsData as Location[];
-  const selectedLocationData = locations.find(loc => loc.id === selectedLocation);
+  const navigate = useNavigate();
+  const { addBooking } = useBookings();
 
-  const timeSlots = [
-    '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'
-  ];
+  // State
+  const [selectedFloor, setSelectedFloor] = useState(1);
+  const [selectedSeat, setSelectedSeat] = useState<Seat | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>(
+    new Date().toISOString().split('T')[0]
+  );
+  const [selectedStartTime, setSelectedStartTime] = useState('09:00');
+  const [selectedDuration, setSelectedDuration] = useState(120);
+  const [amenityFilters, setAmenityFilters] = useState<Set<string>>(new Set());
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [bookingInProgress, setBookingInProgress] = useState(false);
+  const [hoveredSeat, setHoveredSeat] = useState<string | null>(null);
 
-  const handleLocationSelect = (locationId: string) => {
-    setSelectedLocation(locationId);
-    setStep(2);
-  };
+  // Get current floor plan
+  const currentFloorPlan = getFloorPlan(selectedFloor);
 
-  const handleBooking = () => {
-    // TODO: Implement booking functionality
-    console.log('Booking:', {
-      location: selectedLocation,
-      date: selectedDate,
-      time: selectedTime,
-      duration
+  // Get filtered seats
+  const filteredSeats = useMemo(() => {
+    let seats = getSeatsByFloor(selectedFloor);
+    
+    if (amenityFilters.size > 0) {
+      seats = seats.filter(seat => {
+        return Array.from(amenityFilters).every(filter => {
+          switch (filter) {
+            case 'monitor': return seat.hasMonitor;
+            case 'power': return seat.hasPowerOutlet;
+            case 'quiet': return seat.isQuietZone;
+            case 'window': return seat.isWindowSeat;
+            case 'standing': return seat.isStandingDesk;
+            case 'collaborative': return seat.type === 'collaborative';
+            default: return true;
+          }
+        });
+      });
+    }
+    
+    return seats;
+  }, [selectedFloor, amenityFilters]);
+
+  // Get occupancy stats
+  const occupancyStats = useMemo(() => {
+    return getOccupancyStats(selectedFloor);
+  }, [selectedFloor]);
+
+  // Calculate booking price
+  const bookingPrice = selectedSeat 
+    ? calculatePrice(selectedSeat.hourlyRate, selectedDuration)
+    : 0;
+
+  // Calculate end time
+  const endTime = useMemo(() => {
+    const startIdx = timeSlots.indexOf(selectedStartTime);
+    const slotsToAdd = selectedDuration / 30;
+    const endIdx = Math.min(startIdx + slotsToAdd, timeSlots.length - 1);
+    return timeSlots[endIdx];
+  }, [selectedStartTime, selectedDuration]);
+
+  // Toggle amenity filter
+  const toggleAmenityFilter = (amenityId: string) => {
+    setAmenityFilters(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(amenityId)) {
+        newSet.delete(amenityId);
+      } else {
+        newSet.add(amenityId);
+      }
+      return newSet;
     });
-    setStep(3);
   };
 
-  const calculatePrice = () => {
-    if (!selectedLocationData) return 0;
-    const hours = parseInt(duration);
-    const hourlyRate = Math.round(selectedLocationData.pricePerDay / 8);
-    return hourlyRate * hours;
+  // Handle seat click
+  const handleSeatClick = (seat: Seat) => {
+    if (seat.status === 'available') {
+      setSelectedSeat(seat);
+    }
+  };
+
+  // Handle booking
+  const handleBooking = async () => {
+    if (!selectedSeat) return;
+    setBookingInProgress(true);
+
+    // Simulate a brief processing delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    const checkInDeadline = new Date(`${selectedDate}T${selectedStartTime}`);
+    checkInDeadline.setMinutes(checkInDeadline.getMinutes() + 15);
+
+    addBooking({
+      locationName: 'Delhi Central',
+      locationId: 'delhi-central',
+      seatId: selectedSeat.id,
+      seatNumber: selectedSeat.seatNumber,
+      seatType: getSeatTypeInfo(selectedSeat.type)?.label || selectedSeat.type,
+      floor: selectedSeat.floor,
+      zone: selectedSeat.zone,
+      date: selectedDate,
+      startTime: selectedStartTime,
+      endTime: endTime,
+      duration: selectedDuration,
+      amenities: selectedSeat.amenities,
+      status: 'upcoming',
+      amount: bookingPrice,
+      checkInDeadline: checkInDeadline.toISOString(),
+    });
+
+    setBookingInProgress(false);
+    setShowBookingModal(false);
+
+    // Brief success flash then redirect
+    setTimeout(() => navigate('/my-bookings'), 300);
+  };
+
+  // Get seat type info
+  const getSeatTypeInfo = (type: string) => {
+    return seatTypes.find(st => st.id === type);
   };
 
   return (
     <div className="bg-dark-custom" style={{ marginTop: '76px', minHeight: '100vh' }}>
-      <div className="container py-5">
+      <div className="container-fluid py-4">
         {/* Header */}
         <motion.div 
-          className="text-center mb-5"
-          initial={{ opacity: 0, y: 30 }}
+          className="mb-4"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="font-display fw-bold mb-3" data-testid="book-seat-title">
-            Book Your Study Seat
-          </h1>
-          <p className="fs-5 text-secondary-custom">
-            Reserve your perfect study space in just a few clicks
-          </p>
+          <div className="d-flex justify-content-between align-items-center">
+            <div>
+              <h1 className="font-display fw-bold mb-2">
+                <i className="fas fa-chair me-3" style={{ color: 'var(--accent-1)' }}></i>
+                Book a Seat
+              </h1>
+              <p className="text-secondary-custom mb-0">
+                Select your workspace from the interactive floor plan
+              </p>
+            </div>
+            
+            {/* Occupancy Stats */}
+            <div className="d-flex gap-3">
+              <div className="text-center px-3 py-2 bg-panel rounded-3">
+                <p className="small text-secondary-custom mb-0">Available</p>
+                <p className="fw-bold mb-0" style={{ color: '#22c55e' }}>
+                  {occupancyStats.available}/{occupancyStats.total}
+                </p>
+              </div>
+              <div className="text-center px-3 py-2 bg-panel rounded-3">
+                <p className="small text-secondary-custom mb-0">Occupied</p>
+                <p className="fw-bold mb-0" style={{ color: '#ef4444' }}>
+                  {occupancyStats.occupied}
+                </p>
+              </div>
+              <div className="text-center px-3 py-2 bg-panel rounded-3">
+                <p className="small text-secondary-custom mb-0">Reserved</p>
+                <p className="fw-bold mb-0" style={{ color: '#f59e0b' }}>
+                  {occupancyStats.reserved}
+                </p>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
-        {/* Progress Indicator */}
-        <motion.div 
-          className="mb-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="d-flex align-items-center justify-content-center">
-            {[1, 2, 3].map((stepNum) => (
-              <React.Fragment key={stepNum}>
-                <div 
-                  className={`rounded-circle d-flex align-items-center justify-content-center ${
-                    step >= stepNum ? 'bg-primary' : 'bg-muted'
-                  }`}
-                  style={{ width: '40px', height: '40px' }}
-                >
-                  <span className="fw-bold text-white">{stepNum}</span>
+        <div className="row g-4">
+          {/* Left Panel - Filters & Booking Details */}
+          <div className="col-lg-3">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              {/* Date & Time Selection */}
+              <div className="card-custom p-3 mb-3">
+                <h6 className="fw-semibold mb-3">
+                  <i className="fas fa-calendar-alt me-2" style={{ color: 'var(--accent-1)' }}></i>
+                  Date & Time
+                </h6>
+                
+                <div className="mb-3">
+                  <label className="form-label small">Date</label>
+                  <input
+                    type="date"
+                    className="form-control form-control-sm"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                    data-testid="date-input"
+                  />
                 </div>
-                {stepNum < 3 && (
-                  <div 
-                    className={`mx-3 ${step > stepNum ? 'bg-primary' : 'bg-muted'}`}
-                    style={{ height: '2px', width: '60px' }}
-                  ></div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-          <div className="d-flex justify-content-center mt-2">
-            <div className="text-center" style={{ width: '140px' }}>
-              <small className="text-secondary-custom">Choose Location</small>
-            </div>
-            <div className="text-center" style={{ width: '140px' }}>
-              <small className="text-secondary-custom">Select Time</small>
-            </div>
-            <div className="text-center" style={{ width: '140px' }}>
-              <small className="text-secondary-custom">Confirm</small>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Step 1: Location Selection */}
-        {step === 1 && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3 className="font-display fw-semibold mb-4">Select a Location</h3>
-            <div className="row g-4">
-              {locations.map((location) => (
-                <div key={location.id} className="col-lg-4 col-md-6">
-                  <div 
-                    onClick={() => handleLocationSelect(location.id)}
-                    style={{ cursor: 'pointer' }}
-                    data-testid={`location-select-${location.id}`}
+                
+                <div className="mb-3">
+                  <label className="form-label small">Start Time</label>
+                  <select
+                    className="form-select form-select-sm"
+                    value={selectedStartTime}
+                    onChange={(e) => setSelectedStartTime(e.target.value)}
+                    data-testid="start-time-select"
                   >
-                    <LocationCard location={location} />
+                    {timeSlots.map(slot => (
+                      <option key={slot} value={slot}>{slot}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="form-label small">Duration</label>
+                  <select
+                    className="form-select form-select-sm"
+                    value={selectedDuration}
+                    onChange={(e) => setSelectedDuration(Number(e.target.value))}
+                    data-testid="duration-select"
+                  >
+                    {durationOptions.map(opt => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Amenity Filters */}
+              <div className="card-custom p-3 mb-3">
+                <h6 className="fw-semibold mb-3">
+                  <i className="fas fa-filter me-2" style={{ color: 'var(--accent-2)' }}></i>
+                  Filter by Amenities
+                </h6>
+                
+                <div className="d-flex flex-wrap gap-2">
+                  {amenityOptions.map(amenity => (
+                    <button
+                      key={amenity.id}
+                      className={`btn btn-sm ${amenityFilters.has(amenity.id) ? 'btn-primary-custom' : 'btn-outline-custom'}`}
+                      onClick={() => toggleAmenityFilter(amenity.id)}
+                      data-testid={`filter-${amenity.id}`}
+                    >
+                      <i className={`fas ${amenity.icon} me-1`}></i>
+                      {amenity.label}
+                    </button>
+                  ))}
+                </div>
+                
+                {amenityFilters.size > 0 && (
+                  <button
+                    className="btn btn-link btn-sm text-secondary-custom p-0 mt-2"
+                    onClick={() => setAmenityFilters(new Set())}
+                  >
+                    Clear all filters
+                  </button>
+                )}
+              </div>
+
+              {/* Seat Type Legend */}
+              <div className="card-custom p-3">
+                <h6 className="fw-semibold mb-3">
+                  <i className="fas fa-info-circle me-2" style={{ color: 'var(--support-moss)' }}></i>
+                  Seat Status
+                </h6>
+                
+                <div className="d-flex flex-column gap-2">
+                  <div className="d-flex align-items-center gap-2">
+                    <div style={{ width: 16, height: 16, backgroundColor: '#22c55e', borderRadius: 3 }}></div>
+                    <span className="small">Available</span>
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <div style={{ width: 16, height: 16, backgroundColor: '#ef4444', borderRadius: 3 }}></div>
+                    <span className="small">Occupied</span>
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <div style={{ width: 16, height: 16, backgroundColor: '#f59e0b', borderRadius: 3 }}></div>
+                    <span className="small">Reserved</span>
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <div style={{ width: 16, height: 16, backgroundColor: '#6b7280', borderRadius: 3 }}></div>
+                    <span className="small">Maintenance</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
+              </div>
+            </motion.div>
+          </div>
 
-        {/* Step 2: Date and Time Selection */}
-        {step === 2 && selectedLocationData && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="row g-5">
-              <div className="col-lg-8">
-                <div className="d-flex align-items-center mb-4">
-                  <button 
-                    className="btn btn-outline-custom me-3"
-                    onClick={() => setStep(1)}
-                    data-testid="btn-back-location"
+          {/* Center Panel - Interactive Floor Plan */}
+          <div className="col-lg-6">
+            <motion.div
+              className="card-custom p-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              {/* Floor Selector */}
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <div className="d-flex gap-2">
+                  {[1, 2, 3].map(floor => (
+                    <button
+                      key={floor}
+                      className={`btn ${selectedFloor === floor ? 'btn-primary-custom' : 'btn-outline-custom'}`}
+                      onClick={() => {
+                        setSelectedFloor(floor);
+                        setSelectedSeat(null);
+                      }}
+                      data-testid={`floor-${floor}`}
+                    >
+                      Floor {floor}
+                    </button>
+                  ))}
+                </div>
+                <span className="text-secondary-custom small">
+                  {currentFloorPlan?.name}
+                </span>
+              </div>
+
+              {/* SVG Floor Plan */}
+              <div 
+                className="bg-dark rounded-4 p-3 position-relative"
+                style={{ minHeight: '400px' }}
+              >
+                <svg 
+                  viewBox="0 0 400 300" 
+                  className="w-100"
+                  style={{ maxHeight: '400px' }}
+                >
+                  {/* Background grid */}
+                  <defs>
+                    <pattern id="floorGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2d3748" strokeWidth="0.5"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#floorGrid)" />
+
+                  {/* Zones */}
+                  {currentFloorPlan?.zones.map(zone => (
+                    <rect
+                      key={zone.id}
+                      x={zone.coordinates.x}
+                      y={zone.coordinates.y}
+                      width={zone.coordinates.width}
+                      height={zone.coordinates.height}
+                      fill={zone.color}
+                      stroke="#4a5568"
+                      strokeWidth="1"
+                      rx="5"
+                    />
+                  ))}
+
+                  {/* Zone labels */}
+                  {currentFloorPlan?.zones.map(zone => (
+                    <text
+                      key={`label-${zone.id}`}
+                      x={zone.coordinates.x + zone.coordinates.width / 2}
+                      y={zone.coordinates.y - 5}
+                      textAnchor="middle"
+                      fill="#a0aec0"
+                      fontSize="10"
+                      fontWeight="bold"
+                    >
+                      {zone.name}
+                    </text>
+                  ))}
+
+                  {/* Facilities */}
+                  {currentFloorPlan?.facilities.map(facility => (
+                    <g key={facility.id}>
+                      <circle
+                        cx={facility.coordinates.x}
+                        cy={facility.coordinates.y}
+                        r="12"
+                        fill="#4a5568"
+                      />
+                      <text
+                        x={facility.coordinates.x}
+                        y={facility.coordinates.y + 4}
+                        textAnchor="middle"
+                        fill="white"
+                        fontSize="10"
+                      >
+                        {facility.type === 'restroom' ? '🚻' : 
+                         facility.type === 'cafe' ? '☕' :
+                         facility.type === 'exit' ? '🚪' :
+                         facility.type === 'water' ? '💧' :
+                         facility.type === 'printer' ? '🖨️' :
+                         facility.type === 'phone_booth' ? '📞' : '📍'}
+                      </text>
+                    </g>
+                  ))}
+
+                  {/* Entrance */}
+                  {currentFloorPlan?.entrances.map((entrance, idx) => (
+                    <g key={`entrance-${idx}`}>
+                      <rect
+                        x={entrance.x - 15}
+                        y={entrance.y - 10}
+                        width="30"
+                        height="20"
+                        fill="var(--support-moss)"
+                        rx="3"
+                      />
+                      <text
+                        x={entrance.x}
+                        y={entrance.y + 4}
+                        textAnchor="middle"
+                        fill="white"
+                        fontSize="8"
+                        fontWeight="bold"
+                      >
+                        ENTER
+                      </text>
+                    </g>
+                  ))}
+
+                  {/* Seats */}
+                  {filteredSeats.map(seat => {
+                    const isSelected = selectedSeat?.id === seat.id;
+                    const isHovered = hoveredSeat === seat.id;
+                    const isClickable = seat.status === 'available';
+                    
+                    return (
+                      <g 
+                        key={seat.id}
+                        style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}
+                        onClick={() => handleSeatClick(seat)}
+                        onMouseEnter={() => setHoveredSeat(seat.id)}
+                        onMouseLeave={() => setHoveredSeat(null)}
+                        data-testid={`seat-${seat.id}`}
+                      >
+                        {/* Seat rectangle */}
+                        <rect
+                          x={seat.coordinates.x}
+                          y={seat.coordinates.y}
+                          width={seat.coordinates.width}
+                          height={seat.coordinates.height}
+                          fill={getSeatStatusColor(seat.status)}
+                          stroke={isSelected ? 'var(--accent-2)' : isHovered ? 'white' : '#1a202c'}
+                          strokeWidth={isSelected ? 3 : isHovered ? 2 : 1}
+                          rx="4"
+                          opacity={isClickable ? 1 : 0.6}
+                          className={isSelected ? 'animate-pulse' : ''}
+                        />
+                        
+                        {/* Seat number */}
+                        <text
+                          x={seat.coordinates.x + seat.coordinates.width / 2}
+                          y={seat.coordinates.y + seat.coordinates.height / 2 + 4}
+                          textAnchor="middle"
+                          fill="white"
+                          fontSize="9"
+                          fontWeight="bold"
+                        >
+                          {seat.seatNumber}
+                        </text>
+                        
+                        {/* Type indicator for collaborative seats */}
+                        {seat.type === 'collaborative' && (
+                          <text
+                            x={seat.coordinates.x + seat.coordinates.width / 2}
+                            y={seat.coordinates.y + seat.coordinates.height / 2 + 16}
+                            textAnchor="middle"
+                            fill="white"
+                            fontSize="7"
+                          >
+                            👥 {seat.maxCapacity}
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </svg>
+
+                {/* Hover Tooltip */}
+                {hoveredSeat && (
+                  <div 
+                    className="position-absolute card-custom p-2"
+                    style={{ 
+                      top: 10, 
+                      right: 10, 
+                      minWidth: '150px',
+                      zIndex: 10
+                    }}
                   >
-                    <i className="fas fa-arrow-left me-2"></i>Back
-                  </button>
-                  <div>
-                    <h3 className="font-display fw-semibold mb-1">Select Date & Time</h3>
-                    <p className="text-secondary-custom mb-0">
-                      Booking for {selectedLocationData.name}
+                    {(() => {
+                      const seat = mockSeats.find(s => s.id === hoveredSeat);
+                      if (!seat) return null;
+                      return (
+                        <>
+                          <p className="fw-semibold mb-1">{seat.seatNumber}</p>
+                          <p className="small text-secondary-custom mb-1">
+                            {getSeatTypeInfo(seat.type)?.label}
+                          </p>
+                          <p className="small mb-0">
+                            <span 
+                              className="badge"
+                              style={{ backgroundColor: getSeatStatusColor(seat.status) }}
+                            >
+                              {seat.status}
+                            </span>
+                          </p>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
+              </div>
+
+              {/* Floor Info */}
+              <div className="mt-3 p-3 bg-muted rounded-3">
+                <div className="row g-2">
+                  <div className="col-4">
+                    <p className="small text-secondary-custom mb-0">Total Seats</p>
+                    <p className="fw-semibold mb-0">{occupancyStats.total}</p>
+                  </div>
+                  <div className="col-4">
+                    <p className="small text-secondary-custom mb-0">Available Now</p>
+                    <p className="fw-semibold mb-0" style={{ color: '#22c55e' }}>
+                      {occupancyStats.available}
+                    </p>
+                  </div>
+                  <div className="col-4">
+                    <p className="small text-secondary-custom mb-0">Occupancy</p>
+                    <p className="fw-semibold mb-0">
+                      {Math.round((occupancyStats.occupied / occupancyStats.total) * 100)}%
                     </p>
                   </div>
                 </div>
-
-                <div className="card-custom p-4 mb-4">
-                  <div className="row g-4">
-                    <div className="col-md-6">
-                      <label className="form-label fw-semibold">Date</label>
-                      <input
-                        type="date"
-                        className="form-control bg-muted border-custom text-light"
-                        value={selectedDate}
-                        min={new Date().toISOString().split('T')[0]}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        data-testid="input-date"
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label className="form-label fw-semibold">Duration (hours)</label>
-                      <select
-                        className="form-select bg-muted border-custom text-light"
-                        value={duration}
-                        onChange={(e) => setDuration(e.target.value)}
-                        data-testid="select-duration"
-                      >
-                        <option value="2">2 hours</option>
-                        <option value="4">4 hours</option>
-                        <option value="6">6 hours</option>
-                        <option value="8">8 hours (Full day)</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-custom p-4">
-                  <label className="form-label fw-semibold mb-3">Start Time</label>
-                  <div className="row g-2">
-                    {timeSlots.map((time) => (
-                      <div key={time} className="col-lg-3 col-md-4 col-6">
-                        <button
-                          className={`btn w-100 ${
-                            selectedTime === time ? 'btn-primary-custom' : 'btn-outline-custom'
-                          }`}
-                          onClick={() => setSelectedTime(time)}
-                          data-testid={`time-slot-${time}`}
-                        >
-                          {new Date(`2024-01-01T${time}`).toLocaleTimeString('en-US', {
-                            hour: 'numeric',
-                            minute: '2-digit',
-                            hour12: true
-                          })}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
+            </motion.div>
+          </div>
 
-              <div className="col-lg-4">
-                <div className="card-custom p-4 sticky-top" style={{ top: '100px' }}>
-                  <h5 className="fw-semibold mb-3">Booking Summary</h5>
-                  
-                  <div className="mb-3">
-                    <div className="d-flex justify-content-between mb-2">
-                      <span>Location:</span>
-                      <span>{selectedLocationData.name}</span>
+          {/* Right Panel - Selected Seat Details */}
+          <div className="col-lg-3">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              {selectedSeat ? (
+                <div className="card-custom p-4">
+                  <h6 className="fw-semibold mb-3">
+                    <i className="fas fa-check-circle me-2" style={{ color: 'var(--support-moss)' }}></i>
+                    Selected Seat
+                  </h6>
+
+                  {/* Seat Info */}
+                  <div className="text-center mb-4">
+                    <div 
+                      className="rounded-4 d-inline-flex align-items-center justify-content-center mb-3"
+                      style={{ 
+                        width: '80px', 
+                        height: '80px', 
+                        background: 'linear-gradient(135deg, var(--accent-1), var(--accent-2))' 
+                      }}
+                    >
+                      <i className={`fas ${getSeatTypeInfo(selectedSeat.type)?.icon || 'fa-chair'} fa-2x text-white`}></i>
                     </div>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span>Date:</span>
-                      <span>{new Date(selectedDate).toLocaleDateString()}</span>
+                    <h5 className="fw-bold mb-1">{selectedSeat.seatNumber}</h5>
+                    <p className="text-secondary-custom mb-0">{getSeatTypeInfo(selectedSeat.type)?.label}</p>
+                  </div>
+
+                  {/* Booking Details */}
+                  <div className="bg-muted rounded-3 p-3 mb-4">
+                    <div className="mb-2">
+                      <p className="small text-secondary-custom mb-0">Date</p>
+                      <p className="fw-semibold mb-0">
+                        {new Date(selectedDate).toLocaleDateString('en-US', { 
+                          weekday: 'short', 
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}
+                      </p>
                     </div>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span>Time:</span>
-                      <span>{new Date(`2024-01-01T${selectedTime}`).toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true
-                      })}</span>
+                    <div className="mb-2">
+                      <p className="small text-secondary-custom mb-0">Time</p>
+                      <p className="fw-semibold mb-0">{selectedStartTime} - {endTime}</p>
                     </div>
-                    <div className="d-flex justify-content-between mb-3">
-                      <span>Duration:</span>
-                      <span>{duration} hours</span>
+                    <div className="mb-2">
+                      <p className="small text-secondary-custom mb-0">Duration</p>
+                      <p className="fw-semibold mb-0">{formatDuration(selectedDuration)}</p>
+                    </div>
+                    <div>
+                      <p className="small text-secondary-custom mb-0">Location</p>
+                      <p className="fw-semibold mb-0">Floor {selectedSeat.floor}, {selectedSeat.zone}</p>
                     </div>
                   </div>
 
-                  <hr className="border-custom" />
-
-                  <div className="d-flex justify-content-between mb-3">
-                    <span className="fw-semibold">Total:</span>
-                    <span className="fw-bold price-highlight">₹{calculatePrice()}</span>
+                  {/* Amenities */}
+                  <div className="mb-4">
+                    <p className="small text-secondary-custom mb-2">Amenities</p>
+                    <div className="d-flex flex-wrap gap-1">
+                      {selectedSeat.amenities.map((amenity, idx) => (
+                        <span key={idx} className="badge bg-light text-dark">{amenity}</span>
+                      ))}
+                    </div>
                   </div>
 
-                  <button 
-                    className="btn btn-primary-custom w-100"
-                    onClick={handleBooking}
-                    data-testid="btn-confirm-booking"
+                  {/* Price */}
+                  <div className="p-3 rounded-3 mb-4" style={{ background: 'linear-gradient(135deg, var(--accent-1), var(--accent-2))' }}>
+                    <p className="text-white small mb-1">Total Price</p>
+                    <h3 className="text-white fw-bold mb-0">₹{bookingPrice}</h3>
+                  </div>
+
+                  {/* Check-in Notice */}
+                  <div className="alert alert-warning small mb-4">
+                    <i className="fas fa-clock me-2"></i>
+                    <strong>Proximity Check-In:</strong> You must check in within 15 minutes of your start time, or your booking will be automatically cancelled.
+                  </div>
+
+                  {/* Book Button */}
+                  <button
+                    className="btn w-100 btn-lg"
+                    style={{
+                      background: 'linear-gradient(135deg, var(--accent-1), var(--accent-2))',
+                      color: 'white',
+                      border: 'none'
+                    }}
+                    onClick={() => setShowBookingModal(true)}
+                    data-testid="proceed-booking-btn"
                   >
-                    Confirm Booking
+                    <i className="fas fa-calendar-check me-2"></i>
+                    Proceed to Book
                   </button>
                 </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
+              ) : (
+                <div className="card-custom p-4 text-center">
+                  <i className="fas fa-mouse-pointer mb-3" style={{ fontSize: '3rem', color: 'var(--borders)' }}></i>
+                  <h6 className="fw-semibold">Select a Seat</h6>
+                  <p className="text-secondary-custom small mb-0">
+                    Click on an available seat (green) on the floor plan to view details and book
+                  </p>
+                </div>
+              )}
 
-        {/* Step 3: Confirmation */}
-        {step === 3 && (
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="card-custom p-5 mx-auto" style={{ maxWidth: '500px' }}>
-              <i className="fas fa-check-circle text-success mb-4" style={{ fontSize: '4rem' }}></i>
-              <h3 className="font-display fw-bold mb-3">Booking Confirmed!</h3>
-              <p className="text-secondary-custom mb-4">
-                Your seat has been reserved successfully. Check your email for the QR code.
-              </p>
-              
-              <div className="d-flex gap-3 justify-content-center">
-                <button 
-                  className="btn btn-primary-custom"
-                  onClick={() => setStep(1)}
-                  data-testid="btn-book-another"
-                >
-                  Book Another Seat
-                </button>
-                <button className="btn btn-outline-custom" data-testid="btn-view-bookings">
-                  View My Bookings
-                </button>
+              {/* Seat Types Info */}
+              <div className="card-custom p-3 mt-3">
+                <h6 className="fw-semibold mb-3">Seat Types</h6>
+                {seatTypes.slice(0, 4).map(type => (
+                  <div key={type.id} className="d-flex align-items-center gap-2 mb-2">
+                    <i className={`fas ${type.icon}`} style={{ color: 'var(--accent-1)', width: 20 }}></i>
+                    <div>
+                      <p className="small fw-semibold mb-0">{type.label}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Booking Confirmation Modal */}
+      <AnimatePresence>
+        {showBookingModal && selectedSeat && (
+          <motion.div
+            className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+            style={{ background: 'rgba(0,0,0,0.7)', zIndex: 1050 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="card-custom p-4"
+              style={{ maxWidth: '450px', width: '90%' }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <>
+                  <h5 className="fw-semibold mb-4">Confirm Your Booking</h5>
+
+                  <div className="bg-muted rounded-3 p-3 mb-4">
+                    <div className="row g-3">
+                      <div className="col-6">
+                        <p className="small text-secondary-custom mb-1">Seat</p>
+                        <p className="fw-semibold mb-0">{selectedSeat.seatNumber}</p>
+                      </div>
+                      <div className="col-6">
+                        <p className="small text-secondary-custom mb-1">Type</p>
+                        <p className="fw-semibold mb-0">{getSeatTypeInfo(selectedSeat.type)?.label}</p>
+                      </div>
+                      <div className="col-6">
+                        <p className="small text-secondary-custom mb-1">Date</p>
+                        <p className="fw-semibold mb-0">
+                          {new Date(selectedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </p>
+                      </div>
+                      <div className="col-6">
+                        <p className="small text-secondary-custom mb-1">Time</p>
+                        <p className="fw-semibold mb-0">{selectedStartTime} - {endTime}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <span className="fw-semibold">Total Amount</span>
+                    <span className="h4 mb-0 fw-bold" style={{ color: 'var(--accent-1)' }}>₹{bookingPrice}</span>
+                  </div>
+
+                  <div className="d-flex gap-2">
+                    <button
+                      className="btn btn-outline-custom flex-grow-1"
+                      onClick={() => setShowBookingModal(false)}
+                      disabled={bookingInProgress}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="btn btn-primary-custom flex-grow-1"
+                      onClick={handleBooking}
+                      disabled={bookingInProgress}
+                      data-testid="confirm-booking-btn"
+                    >
+                      {bookingInProgress ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Booking...
+                        </>
+                      ) : (
+                        'Confirm Booking'
+                      )}
+                    </button>
+                  </div>
+                </>
+            </motion.div>
           </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 };
